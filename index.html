@@ -12,121 +12,98 @@
 <meta property="og:image" content="https://i.imgur.com/UQoSZqc.jpeg">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:monospace;}
-
 body{
-  background:black;
-  color:#0ff;
-  overflow:hidden;
+margin:0;
+background:black;
+color:#0ff;
+font-family:monospace;
+text-align:center;
+overflow-x:hidden;
 }
 
 /* MATRIX BACKGROUND */
-canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:-1;
+body::before{
+content:"0101010101010101";
+position:fixed;
+width:100%;
+height:100%;
+color:#0f0;
+font-size:12px;
+opacity:0.08;
+animation:move 10s linear infinite;
+}
+@keyframes move{
+0%{transform:translateY(-100%)}
+100%{transform:translateY(100%)}
 }
 
-/* CONTAINER */
-.container{
-  padding:20px;
-  text-align:center;
-}
-
-/* CYBER TITLE */
+/* TITLE */
 .title{
-  font-size:22px;
-  color:#00ffcc;
-  text-shadow:0 0 10px #00ffcc,0 0 30px #00ffcc,0 0 60px #00ffcc;
-  animation: flicker 2s infinite alternate;
-  margin-bottom:20px;
+font-size:22px;
+color:#00ffcc;
+text-shadow:0 0 15px #00ffcc;
+animation:glow 2s infinite alternate;
 }
-
-@keyframes flicker{
-  0%{opacity:0.5;}
-  50%{opacity:1;}
-  100%{opacity:0.7;}
+@keyframes glow{
+from{text-shadow:0 0 10px #0ff}
+to{text-shadow:0 0 25px #0ff}
 }
 
 /* CARD */
 .card{
-  background:rgba(0,0,0,0.6);
-  padding:20px;
-  margin:15px auto;
-  border-radius:15px;
-  width:90%;
-  max-width:400px;
-  box-shadow:0 0 20px #00ffcc;
-}
-
-/* INPUT */
-input{
-  width:90%;
-  padding:12px;
-  margin:8px;
-  border:none;
-  border-radius:10px;
+background:#111;
+padding:15px;
+margin:15px;
+border-radius:15px;
+box-shadow:0 0 15px #00ffcc;
 }
 
 /* BUTTON */
 .btn{
-  padding:12px 30px;
-  margin:8px;
-  border:none;
-  border-radius:30px;
-  background:linear-gradient(90deg,#00ffcc,#0066ff);
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-  box-shadow:0 0 15px #00ffcc;
-  transition:0.3s;
+margin:8px;
+padding:12px 20px;
+border-radius:25px;
+border:none;
+background:linear-gradient(90deg,#00ffcc,#0066ff);
+color:white;
+font-size:14px;
+box-shadow:0 0 10px #00ffcc;
+cursor:pointer;
 }
 
-.btn:hover{
-  transform:scale(1.05);
+/* INPUT */
+input{
+padding:10px;
+margin:5px;
+border-radius:10px;
+border:none;
+width:80%;
 }
 
-/* RESULT */
-#result{
-  margin-top:15px;
-  color:#0f0;
-}
-
-.status{
-  margin-top:10px;
-  color:#0f0;
-}
 </style>
 </head>
 
 <body>
-
-<canvas id="matrix"></canvas>
-
-<div class="container">
 
 <h2 class="title">
 ⚡ MASTERMIND CYBER FORCES ⚡<br>
 OWNER BY ROCKY CHOWDHURY
 </h2>
 
-<!-- TOKEN -->
+<!-- TOKEN SYSTEM -->
 <div class="card">
 <h3>🔑 System Access</h3>
 <input id="token" placeholder="Enter Bot Token">
 <input id="admin" placeholder="Enter Admin UID">
 <button class="btn" onclick="save()">Activate</button>
-<p class="status" id="status"></p>
+<p id="status"></p>
 </div>
 
-<!-- API -->
+<!-- API SECTION -->
 <div class="card">
 <h3>🌐 API Tools</h3>
 
-<input id="query" placeholder="Search anything">
+<input id="query" placeholder="Search / Name / City">
 
 <button class="btn" onclick="youtube()">YouTube</button>
 <button class="btn" onclick="ip()">IP</button>
@@ -137,7 +114,6 @@ OWNER BY ROCKY CHOWDHURY
 <button class="btn" onclick="age()">Age</button>
 <button class="btn" onclick="gender()">Gender</button>
 <button class="btn" onclick="country()">Country</button>
-<button class="btn" onclick="crypto()">Crypto</button>
 <button class="btn" onclick="weather()">Weather</button>
 <button class="btn" onclick="fact()">Fact</button>
 <button class="btn" onclick="number()">Number</button>
@@ -145,78 +121,137 @@ OWNER BY ROCKY CHOWDHURY
 <button class="btn" onclick="advice()">Advice</button>
 
 <p id="result"></p>
-</div>
 
 </div>
 
 <script>
-// MATRIX EFFECT
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-let letters = "01";
-letters = letters.split("");
-
-let fontSize = 14;
-let columns = canvas.width/fontSize;
-
-let drops = [];
-for(let x=0;x<columns;x++) drops[x]=1;
-
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="#0f0";
-ctx.font=fontSize+"px monospace";
-
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-drops[i]=0;
-
-drops[i]++;
-}
-}
-setInterval(draw,33);
-
-// SAVE
+// SAVE TOKEN
 function save(){
-let t=token.value;
-let a=admin.value;
+let t = token.value;
+let a = admin.value;
 
-if(!t||!a){
+if(!t || !a){
 alert("Fill all fields");
 return;
 }
 
-localStorage.setItem("8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs",t);
-localStorage.setItem("6882953267",a);
+localStorage.setItem("token",t);
+localStorage.setItem("admin",a);
 
 status.innerText="✅ System Activated";
 }
 
-// API
-function youtube(){window.open("https://www.youtube.com/results?search_query="+query.value);}
-function ip(){fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>result.innerText="IP: "+d.ip);}
-function joke(){fetch("https://official-joke-api.appspot.com/random_joke").then(r=>r.json()).then(d=>result.innerText=d.setup+" - "+d.punchline);}
-function quote(){fetch("https://api.quotable.io/random").then(r=>r.json()).then(d=>result.innerText=d.content);}
-function cat(){fetch("https://api.thecatapi.com/v1/images/search").then(r=>r.json()).then(d=>result.innerHTML="<img src='"+d[0].url+"' width='200'>");}
-function dog(){fetch("https://dog.ceo/api/breeds/image/random").then(r=>r.json()).then(d=>result.innerHTML="<img src='"+d.message+"' width='200'>");}
-function age(){fetch("https://api.agify.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Age: "+d.age);}
-function gender(){fetch("https://api.genderize.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Gender: "+d.gender);}
-function country(){fetch("https://api.nationalize.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Country: "+(d.country[0]?.country_id||"N/A"));}
-function crypto(){fetch("https://api.coindesk.com/v1/bpi/currentprice.json").then(r=>r.json()).then(d=>result.innerText="BTC: "+d.bpi.USD.rate);}
-function weather(){fetch("https://wttr.in/"+query.value+"?format=3").then(r=>r.text()).then(d=>result.innerText=d);}
-function fact(){fetch("https://uselessfacts.jsph.pl/random.json?language=en").then(r=>r.json()).then(d=>result.innerText=d.text);}
-function number(){fetch("https://numbersapi.com/random").then(r=>r.text()).then(d=>result.innerText=d);}
-function bored(){fetch("https://www.boredapi.com/api/activity").then(r=>r.json()).then(d=>result.innerText=d.activity);}
-function advice(){fetch("https://api.adviceslip.com/advice").then(r=>r.json()).then(d=>result.innerText=d.slip.advice);}
+// YOUTUBE
+function youtube(){
+let q=query.value;
+window.open("https://www.youtube.com/results?search_query="+q);
+}
+
+// IP
+function ip(){
+fetch("https://api.ipify.org?format=json")
+.then(r=>r.json())
+.then(d=>result.innerText="IP: "+d.ip)
+.catch(()=>result.innerText="Error");
+}
+
+// JOKE
+function joke(){
+fetch("https://official-joke-api.appspot.com/random_joke")
+.then(r=>r.json())
+.then(d=>result.innerText=d.setup+" - "+d.punchline)
+.catch(()=>result.innerText="Error");
+}
+
+// QUOTE
+function quote(){
+fetch("https://api.quotable.io/random")
+.then(r=>r.json())
+.then(d=>result.innerText=d.content)
+.catch(()=>result.innerText="Error");
+}
+
+// CAT
+function cat(){
+fetch("https://api.thecatapi.com/v1/images/search")
+.then(r=>r.json())
+.then(d=>result.innerHTML="<img src='"+d[0].url+"' width='200'>")
+.catch(()=>result.innerText="Error");
+}
+
+// DOG
+function dog(){
+fetch("https://dog.ceo/api/breeds/image/random")
+.then(r=>r.json())
+.then(d=>result.innerHTML="<img src='"+d.message+"' width='200'>")
+.catch(()=>result.innerText="Error");
+}
+
+// AGE
+function age(){
+fetch("https://api.agify.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Age: "+d.age)
+.catch(()=>result.innerText="Error");
+}
+
+// GENDER
+function gender(){
+fetch("https://api.genderize.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Gender: "+d.gender)
+.catch(()=>result.innerText="Error");
+}
+
+// COUNTRY
+function country(){
+fetch("https://api.nationalize.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Country: "+(d.country[0]?.country_id || "Unknown"))
+.catch(()=>result.innerText="Error");
+}
+
+// WEATHER
+function weather(){
+fetch("https://wttr.in/"+query.value+"?format=3")
+.then(r=>r.text())
+.then(d=>result.innerText=d)
+.catch(()=>result.innerText="Error");
+}
+
+// FACT
+function fact(){
+fetch("https://uselessfacts.jsph.pl/random.json?language=en")
+.then(r=>r.json())
+.then(d=>result.innerText=d.text)
+.catch(()=>result.innerText="Error");
+}
+
+// NUMBER (FIXED HTTPS)
+function number(){
+fetch("https://numbersapi.com/random?json")
+.then(r=>r.json())
+.then(d=>result.innerText=d.text)
+.catch(()=>result.innerText="Error");
+}
+
+// BORED
+function bored(){
+fetch("https://www.boredapi.com/api/activity")
+.then(r=>r.json())
+.then(d=>result.innerText=d.activity)
+.catch(()=>result.innerText="Error");
+}
+
+// ADVICE
+function advice(){
+fetch("https://api.adviceslip.com/advice")
+.then(r=>r.json())
+.then(d=>result.innerText=d.slip.advice)
+.catch(()=>result.innerText="Error");
+}
+
 </script>
 
 </body>
