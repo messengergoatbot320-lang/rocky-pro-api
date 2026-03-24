@@ -4,156 +4,219 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- SEO -->
-<meta property="og:title" content="Rocky Pro API">
-<meta property="og:description" content="Cyber API System">
-<meta property="og:image" content="https://i.imgur.com/UQoSZqc.jpeg">
-<meta property="og:url" content="https://tinyurl.com/rocky-pro-api">
-
 <title>Rocky Pro API</title>
 
+<!-- PREVIEW -->
+<meta property="og:title" content="Rocky Pro API">
+<meta property="og:description" content="Secure Modern API System by Rocky Chowdhury">
+<meta property="og:image" content="https://i.imgur.com/UQoSZqc.jpeg">
+
 <style>
-body {
-  margin:0;
-  font-family:sans-serif;
-  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-  color:white;
+*{margin:0;padding:0;box-sizing:border-box;font-family:monospace;}
+
+body{
+  background:black;
+  color:#0ff;
+  overflow:hidden;
+}
+
+/* MATRIX BACKGROUND */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+}
+
+/* CONTAINER */
+.container{
+  padding:20px;
   text-align:center;
 }
 
-/* Cyber Header */
-.cyber {
-  font-size:20px;
-  margin-top:20px;
+/* CYBER TITLE */
+.title{
+  font-size:22px;
   color:#00ffcc;
-  text-shadow:0 0 10px #00ffcc;
-  animation:glow 1.5s infinite alternate;
-}
-@keyframes glow {
-  from {text-shadow:0 0 5px #00ffcc;}
-  to {text-shadow:0 0 20px #00ffcc;}
+  text-shadow:0 0 10px #00ffcc,0 0 30px #00ffcc,0 0 60px #00ffcc;
+  animation: flicker 2s infinite alternate;
+  margin-bottom:20px;
 }
 
-/* Button */
-.btn {
-  display:block;
+@keyframes flicker{
+  0%{opacity:0.5;}
+  50%{opacity:1;}
+  100%{opacity:0.7;}
+}
+
+/* CARD */
+.card{
+  background:rgba(0,0,0,0.6);
+  padding:20px;
   margin:15px auto;
-  padding:15px;
-  width:80%;
-  max-width:300px;
-  border-radius:30px;
-  background:linear-gradient(90deg,#00c6ff,#0072ff);
+  border-radius:15px;
+  width:90%;
+  max-width:400px;
+  box-shadow:0 0 20px #00ffcc;
+}
+
+/* INPUT */
+input{
+  width:90%;
+  padding:12px;
+  margin:8px;
   border:none;
+  border-radius:10px;
+}
+
+/* BUTTON */
+.btn{
+  padding:12px 30px;
+  margin:8px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(90deg,#00ffcc,#0066ff);
   color:white;
   font-size:16px;
   cursor:pointer;
+  box-shadow:0 0 15px #00ffcc;
+  transition:0.3s;
 }
 
-/* Card */
-.card {
-  background:#111;
-  margin:20px;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 0 15px #00f2ff;
+.btn:hover{
+  transform:scale(1.05);
 }
 
-/* Input */
-input {
-  padding:10px;
-  width:80%;
-  border-radius:10px;
-  border:none;
+/* RESULT */
+#result{
+  margin-top:15px;
+  color:#0f0;
+}
+
+.status{
   margin-top:10px;
+  color:#0f0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="cyber">
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<h2 class="title">
 ⚡ MASTERMIND CYBER FORCES ⚡<br>
 OWNER BY ROCKY CHOWDHURY
+</h2>
+
+<!-- TOKEN -->
+<div class="card">
+<h3>🔑 System Access</h3>
+<input id="token" placeholder="Enter Bot Token">
+<input id="admin" placeholder="Enter Admin UID">
+<button class="btn" onclick="save()">Activate</button>
+<p class="status" id="status"></p>
 </div>
 
-<h1>🚀 Rocky Pro API</h1>
-
-<button class="btn" onclick="start()">🚀 Get Started</button>
-<button class="btn" onclick="contact()">💬 Contact</button>
-
-<!-- YouTube -->
+<!-- API -->
 <div class="card">
-<h3>🔍 YouTube Search</h3>
-<input id="yt" placeholder="Search video">
-<br>
-<button class="btn" onclick="ytSearch()">Search</button>
+<h3>🌐 API Tools</h3>
+
+<input id="query" placeholder="Search anything">
+
+<button class="btn" onclick="youtube()">YouTube</button>
+<button class="btn" onclick="ip()">IP</button>
+<button class="btn" onclick="joke()">Joke</button>
+<button class="btn" onclick="quote()">Quote</button>
+<button class="btn" onclick="cat()">Cat</button>
+<button class="btn" onclick="dog()">Dog</button>
+<button class="btn" onclick="age()">Age</button>
+<button class="btn" onclick="gender()">Gender</button>
+<button class="btn" onclick="country()">Country</button>
+<button class="btn" onclick="crypto()">Crypto</button>
+<button class="btn" onclick="weather()">Weather</button>
+<button class="btn" onclick="fact()">Fact</button>
+<button class="btn" onclick="number()">Number</button>
+<button class="btn" onclick="bored()">Activity</button>
+<button class="btn" onclick="advice()">Advice</button>
+
+<p id="result"></p>
 </div>
 
-<!-- IP Info -->
-<div class="card">
-<h3>🌍 IP Info</h3>
-<button class="btn" onclick="ip()">Check</button>
-<p id="ipResult"></p>
-</div>
-
-<!-- Device Info -->
-<div class="card">
-<h3>📱 Device Info</h3>
-<button class="btn" onclick="device()">Check</button>
-<p id="dev"></p>
 </div>
 
 <script>
-/* =========================
-   🔒 HIDDEN CONFIG (EDIT HERE)
-========================= */
+// MATRIX EFFECT
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-// 👉 BOT TOKEN (paste here)
-const BOT_TOKEN = "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs";
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
-// 👉 ADMIN UID (paste here)
-const ADMIN_UID = "6882953267";
+let letters = "01";
+letters = letters.split("");
 
-/* ========================= */
+let fontSize = 14;
+let columns = canvas.width/fontSize;
 
-function start(){
-  window.open("https://t.me/Access_Terger_Bot");
+let drops = [];
+for(let x=0;x<columns;x++) drops[x]=1;
+
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#0f0";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+let text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+}
+}
+setInterval(draw,33);
+
+// SAVE
+function save(){
+let t=token.value;
+let a=admin.value;
+
+if(!t||!a){
+alert("Fill all fields");
+return;
 }
 
-function contact(){
-  window.open("https://t.me/alveeevanrocky320");
+localStorage.setItem("8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs",t);
+localStorage.setItem("6882953267",a);
+
+status.innerText="✅ System Activated";
 }
 
-// YouTube search
-function ytSearch(){
-  let q = document.getElementById("yt").value;
-  if(!q) return alert("Enter search");
-  window.open("https://www.youtube.com/results?search_query="+q);
-}
-
-// IP info
-function ip(){
-  fetch("https://api.ipify.org?format=json")
-  .then(res=>res.json())
-  .then(data=>{
-    document.getElementById("ipResult").innerText="IP: "+data.ip;
-
-    // send to telegram (optional basic log)
-    if(BOT_TOKEN !== "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs"){
-      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_UID}&text=New Visitor IP: ${data.ip}`);
-    }
-  });
-}
-
-// Device info
-function device(){
-  let info = navigator.userAgent;
-  document.getElementById("dev").innerText = info;
-
-  if(BOT_TOKEN !== "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs"){
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_UID}&text=Device: ${info}`);
-  }
-}
+// API
+function youtube(){window.open("https://www.youtube.com/results?search_query="+query.value);}
+function ip(){fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>result.innerText="IP: "+d.ip);}
+function joke(){fetch("https://official-joke-api.appspot.com/random_joke").then(r=>r.json()).then(d=>result.innerText=d.setup+" - "+d.punchline);}
+function quote(){fetch("https://api.quotable.io/random").then(r=>r.json()).then(d=>result.innerText=d.content);}
+function cat(){fetch("https://api.thecatapi.com/v1/images/search").then(r=>r.json()).then(d=>result.innerHTML="<img src='"+d[0].url+"' width='200'>");}
+function dog(){fetch("https://dog.ceo/api/breeds/image/random").then(r=>r.json()).then(d=>result.innerHTML="<img src='"+d.message+"' width='200'>");}
+function age(){fetch("https://api.agify.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Age: "+d.age);}
+function gender(){fetch("https://api.genderize.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Gender: "+d.gender);}
+function country(){fetch("https://api.nationalize.io/?name="+query.value).then(r=>r.json()).then(d=>result.innerText="Country: "+(d.country[0]?.country_id||"N/A"));}
+function crypto(){fetch("https://api.coindesk.com/v1/bpi/currentprice.json").then(r=>r.json()).then(d=>result.innerText="BTC: "+d.bpi.USD.rate);}
+function weather(){fetch("https://wttr.in/"+query.value+"?format=3").then(r=>r.text()).then(d=>result.innerText=d);}
+function fact(){fetch("https://uselessfacts.jsph.pl/random.json?language=en").then(r=>r.json()).then(d=>result.innerText=d.text);}
+function number(){fetch("https://numbersapi.com/random").then(r=>r.text()).then(d=>result.innerText=d);}
+function bored(){fetch("https://www.boredapi.com/api/activity").then(r=>r.json()).then(d=>result.innerText=d.activity);}
+function advice(){fetch("https://api.adviceslip.com/advice").then(r=>r.json()).then(d=>result.innerText=d.slip.advice);}
 </script>
 
 </body>
