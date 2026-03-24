@@ -17,34 +17,65 @@ text-align:center;
 padding:20px;
 }
 
-h1{
-margin-top:20px;
-font-size:32px;
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
 background:linear-gradient(45deg,#c084fc,#9333ea);
 -webkit-background-clip:text;
 color:transparent;
 }
 
-p{opacity:.7;margin-top:10px}
+.btn-top{
+padding:8px 15px;
+border-radius:20px;
+background:linear-gradient(45deg,#9333ea,#c084fc);
+color:white;
+text-decoration:none;
+font-size:12px;
+}
 
-.container{margin-top:40px}
+.hero{
+margin-top:30px;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.hero p{
+opacity:.7;
+margin-top:10px;
+}
+
+.online{
+margin-top:10px;
+padding:8px 15px;
+background:rgba(0,255,100,0.1);
+border-radius:20px;
+display:inline-block;
+font-size:13px;
+}
 
 .btn{
-display:inline-block;
-margin:10px;
-padding:15px 30px;
+display:block;
+margin:15px auto;
+padding:15px;
+width:85%;
 border-radius:30px;
 text-decoration:none;
 font-weight:bold;
-transition:.3s;
 }
 
 .primary{
 background:linear-gradient(45deg,#9333ea,#c084fc);
 color:white;
 }
-
-.primary:hover{transform:scale(1.05)}
 
 .secondary{
 border:1px solid #aaa;
@@ -55,7 +86,7 @@ color:white;
 background:rgba(255,255,255,0.05);
 padding:20px;
 border-radius:20px;
-margin:15px;
+margin-top:20px;
 backdrop-filter:blur(10px);
 }
 
@@ -63,7 +94,7 @@ input{
 padding:10px;
 border-radius:10px;
 border:none;
-width:80%;
+width:90%;
 margin-top:10px;
 }
 
@@ -81,11 +112,10 @@ cursor:pointer;
 margin-top:10px;
 font-size:14px;
 opacity:.9;
-word-wrap:break-word;
 }
 
 footer{
-margin-top:50px;
+margin-top:40px;
 opacity:.5;
 }
 </style>
@@ -93,41 +123,45 @@ opacity:.5;
 
 <body>
 
-<h1>🚀 Rocky Pro API</h1>
-<p>Modern API System | Telegram Controlled Access</p>
+<div class="header">
+<div class="logo">Rocky Pro API</div>
+<a href="#" class="btn-top">Dashboard</a>
+</div>
 
-<div class="container">
+<div class="hero">
+<h1>Core API System</h1>
+<p>Modern APIs — AI, Tools, Downloader</p>
 
-<!-- 🔥 BOT LINK (এখানে তোর BOT USERNAME বসাবি) -->
+<div class="online">🟢 Online & Serving Requests</div>
+
+<!-- 🤖 BOT -->
 <a href="https://t.me/Access_Terger_Bot" class="btn primary">
-🚀 Get API Key
+🚀 Get Started Free
 </a>
 
-<!-- 👑 ADMIN LINK (এখানে তোর Telegram Username বসাবি) -->
+<!-- 👑 ADMIN -->
 <a href="https://t.me/alveeevanrocky320" class="btn secondary">
-💬 Contact Admin
+💬 Contact Me
 </a>
 
-<!-- 🔑 API KEY INPUT -->
+</div>
+
+<!-- 🔑 API KEY -->
 <div class="card">
 <h3>🔑 Enter API Key</h3>
-<input id="apikey" placeholder="Paste your API key here">
-<p style="font-size:12px;">Get your key from Telegram bot</p>
+<input value="rocky_free_key" readonly>
+<p style="font-size:12px;">Auto system enabled</p>
 </div>
 
 <!-- 📘 GUIDE -->
 <div class="card">
 <h3>📘 How To Use</h3>
 <p>
-1. Click Get API Key<br>
-2. Open Telegram Bot<br>
-3. Type /getkey<br>
-4. Copy your key<br>
-5. Paste & use APIs
+Click Get Started → Open Bot → Get Key → Use APIs
 </p>
 </div>
 
-<!-- 🔍 YOUTUBE DEMO -->
+<!-- 🔍 YT -->
 <div class="card">
 <h3>🔍 YouTube Search</h3>
 <input id="yt" placeholder="Search video">
@@ -136,7 +170,7 @@ opacity:.5;
 <div id="ytResult" class="result"></div>
 </div>
 
-<!-- 🤖 AI DEMO -->
+<!-- 🤖 AI -->
 <div class="card">
 <h3>🤖 AI Chat</h3>
 <input id="ai" placeholder="Ask anything">
@@ -145,69 +179,48 @@ opacity:.5;
 <div id="aiResult" class="result"></div>
 </div>
 
-<!-- 🌍 IP CHECK -->
+<!-- 🌍 IP -->
 <div class="card">
 <h3>🌍 IP Info</h3>
 <button onclick="ipInfo()">Check</button>
 <div id="ipResult" class="result"></div>
 </div>
 
-</div>
-
 <footer>
-© Rocky Chowdhury | Secure API Platform
+© Rocky Chowdhury | Secure API
 </footer>
 
 <script>
 
-// 🔐 API KEY CHECK
-function checkKey(){
-let key=document.getElementById("apikey").value;
-if(!key){
-alert("❌ Please enter API key first!");
-return false;
-}
-return key;
-}
-
-// 🔍 YOUTUBE
+// YouTube
 async function ytSearch(){
-let key=checkKey();
-if(!key) return;
-
 let q=document.getElementById("yt").value;
 
 let res=await fetch(`https://api.popcat.xyz/search?q=${q}`);
 let data=await res.json();
 
 document.getElementById("ytResult").innerText =
-(data.title || "No result") + "\n(API KEY: "+key+")";
+data.title || "No result";
 }
 
-// 🤖 AI
+// AI
 async function aiChat(){
-let key=checkKey();
-if(!key) return;
-
 let q=document.getElementById("ai").value;
 
 let res=await fetch(`https://api.popcat.xyz/chatbot?msg=${q}&owner=Rocky&botname=RockyAI`);
 let data=await res.json();
 
 document.getElementById("aiResult").innerText =
-data.response + "\n(API KEY: "+key+")";
+data.response;
 }
 
-// 🌍 IP
+// IP
 async function ipInfo(){
-let key=checkKey();
-if(!key) return;
-
 let res=await fetch("https://api.ipify.org?format=json");
 let data=await res.json();
 
 document.getElementById("ipResult").innerText =
-"IP: "+data.ip + "\n(API KEY: "+key+")";
+"IP: "+data.ip;
 }
 
 </script>
