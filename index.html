@@ -1,223 +1,258 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium VPN Bot - Rocky Chowdhury</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { font-family: 'Segoe UI', system-ui, sans-serif; }
-    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
-    .chat-container { max-height: 480px; overflow-y: auto; }
-    .user-bubble { background: #22c55e; color: #000; border-bottom-right-radius: 4px; }
-    .bot-bubble { background: #27272a; border-bottom-left-radius: 4px; }
-    .telegram-input { background: #18181b; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rocky Pro API</title>
+
+<!-- PREVIEW -->
+<meta property="og:title" content="Rocky Pro API">
+<meta property="og:description" content="Secure Modern API System by Rocky Chowdhury">
+<meta property="og:image" content="https://i.imgur.com/UQoSZqc.jpeg">
+
+<style>
+body{
+margin:0;
+background:black;
+color:#0ff;
+font-family:monospace;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* MATRIX BACKGROUND */
+body::before{
+content:"0101010101010101";
+position:fixed;
+width:100%;
+height:100%;
+color:#0f0;
+font-size:12px;
+opacity:0.08;
+animation:move 10s linear infinite;
+}
+@keyframes move{
+0%{transform:translateY(-100%)}
+100%{transform:translateY(100%)}
+}
+
+/* TITLE */
+.title{
+font-size:22px;
+color:#00ffcc;
+text-shadow:0 0 15px #00ffcc;
+animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+from{text-shadow:0 0 10px #0ff}
+to{text-shadow:0 0 25px #0ff}
+}
+
+/* CARD */
+.card{
+background:#111;
+padding:15px;
+margin:15px;
+border-radius:15px;
+box-shadow:0 0 15px #00ffcc;
+}
+
+/* BUTTON */
+.btn{
+margin:8px;
+padding:12px 20px;
+border-radius:25px;
+border:none;
+background:linear-gradient(90deg,#00ffcc,#0066ff);
+color:white;
+font-size:14px;
+box-shadow:0 0 10px #00ffcc;
+cursor:pointer;
+}
+
+/* INPUT */
+input{
+padding:10px;
+margin:5px;
+border-radius:10px;
+border:none;
+width:80%;
+}
+
+</style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen pb-20">
 
-  <!-- Header -->
-  <header class="bg-black border-b border-zinc-800 p-4 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-2xl font-bold">VPN</div>
-      <div>
-        <h1 class="text-2xl font-semibold">"Premium VPN/IP Service"</h1>
-        <p class="text-xs text-emerald-400">🤖 Bot by <b>Rocky Chowdhury</b> (Main Owner)</p>
-      </div>
-    </div>
-    <div onclick="showAdminLog()" class="cursor-pointer bg-zinc-900 hover:bg-zinc-800 px-4 py-1 rounded-3xl text-xs flex items-center gap-2">
-      <i class="fas fa-crown"></i> Admin Panel
-    </div>
-  </header>
+<body>
 
-  <div class="max-w-md mx-auto p-4">
+<h2 class="title">
+⚡ MASTERMIND CYBER FORCES ⚡<br>
+OWNER BY ROCKY CHOWDHURY
+</h2>
 
-    <!-- Balance -->
-    <div class="glass border border-zinc-700 rounded-3xl p-6 mb-6 text-center">
-      <p class="text-zinc-400">আপনার ব্যালেন্স (Main Owner: Rocky Chowdhury)</p>
-      <h2 class="text-5xl font-bold mt-1">০ <span class="text-3xl">TK</span></h2>
-    </div>
+<!-- TOKEN SYSTEM -->
+<div class="card">
+<h3>🔑 System Access</h3>
+<input id="token" placeholder="Enter Bot Token">
+<input id="admin" placeholder="Enter Admin UID">
+<button class="btn" onclick="save()">Activate</button>
+<p id="status"></p>
+</div>
 
-    <!-- Quick Buttons -->
-    <div class="grid grid-cols-2 gap-4 mb-8 text-sm">
-      <button onclick="sendCommand('.start')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.start</button>
-      <button onclick="sendCommand('.balance')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.balance</button>
-      <button onclick="sendCommand('.buy')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.buy</button>
-      <button onclick="sendCommand('.recharge')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.recharge</button>
-      <button onclick="sendCommand('.support')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.support</button>
-      <button onclick="sendCommand('.reseller')" class="bg-zinc-900 hover:bg-zinc-800 p-4 rounded-3xl">.reseller</button>
-    </div>
+<!-- API SECTION -->
+<div class="card">
+<h3>🌐 API Tools</h3>
 
-    <!-- Live Chat Section -->
-    <div class="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-700">
-      <div class="bg-black px-4 py-3 flex items-center gap-3 border-b border-zinc-800">
-        <div class="w-8 h-8 bg-blue-600 rounded-2xl flex items-center justify-center">🤖</div>
-        <div class="flex-1">
-          <p class="font-semibold">Your VPN Bot <span class="text-emerald-400">(Prefix: . )</span></p>
-          <p class="text-xs text-zinc-400">Type .command or bby / bot</p>
-        </div>
-      </div>
+<input id="query" placeholder="Search / Name / City">
 
-      <div id="chat-window" class="chat-container p-4 space-y-4 bg-zinc-950 min-h-[300px]"></div>
+<button class="btn" onclick="youtube()">YouTube</button>
+<button class="btn" onclick="ip()">IP</button>
+<button class="btn" onclick="joke()">Joke</button>
+<button class="btn" onclick="quote()">Quote</button>
+<button class="btn" onclick="cat()">Cat</button>
+<button class="btn" onclick="dog()">Dog</button>
+<button class="btn" onclick="age()">Age</button>
+<button class="btn" onclick="gender()">Gender</button>
+<button class="btn" onclick="country()">Country</button>
+<button class="btn" onclick="weather()">Weather</button>
+<button class="btn" onclick="fact()">Fact</button>
+<button class="btn" onclick="number()">Number</button>
+<button class="btn" onclick="bored()">Activity</button>
+<button class="btn" onclick="advice()">Advice</button>
 
-      <div class="p-3 bg-zinc-950 border-t border-zinc-700 flex gap-2">
-        <input id="chat-input" type="text" placeholder="Type message or .command (e.g. .start, bby)"
-               class="flex-1 bg-zinc-800 outline-none px-5 py-3 rounded-3xl text-sm"
-               onkeydown="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()" class="bg-emerald-500 w-12 h-12 rounded-3xl flex items-center justify-center">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-      </div>
-    </div>
+<p id="result"></p>
 
-    <p class="text-center text-xs text-zinc-500 mt-6">💡 এটা তোমার টেলিগ্রাম বটের পুরো ডেমো। Token & Admin UID নিচে দেখো।</p>
-  </div>
+</div>
 
-  <!-- Admin Modal -->
-  <div id="admin-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-    <div class="bg-zinc-900 rounded-3xl w-full max-w-md mx-4 overflow-hidden">
-      <div class="p-4 border-b flex justify-between items-center">
-        <h3 class="font-bold">👑 Admin Panel - Rocky Chowdhury (Main Owner)</h3>
-        <i onclick="hideAdminLog()" class="fas fa-times cursor-pointer text-xl"></i>
-      </div>
-      <div id="admin-log" class="p-4 max-h-96 overflow-y-auto text-sm"></div>
-      <div class="p-4 text-xs text-center text-zinc-400 border-t">
-        সব ইউজারের অ্যাক্টিভিটি এখানে দেখাবে। রিয়েল বটে ডাটাবেসে সেভ হবে।
-      </div>
-    </div>
-  </div>
+<script>
 
-  <script>
-    // ==================== CONFIG - এখানে তোমার তথ্য বসাও ====================
-    const BOT_TOKEN = "8558577029:AAEdOiNQUk7oK2OpnyqtGmU_PVHKWEcKzRs";   // ← BotFather থেকে TOKEN
-    const ADMIN_UID = 6882953267;                                 // ← তোমার Telegram User ID (@userinfobot দিয়ে নাও)
-    const MAIN_OWNER = "Rocky Chowdhury";
-    // =====================================================================
+// SAVE TOKEN
+function save(){
+let t = token.value;
+let a = admin.value;
 
-    let chatLog = [];
-    let adminActivity = [];
+if(!t || !a){
+alert("Fill all fields");
+return;
+}
 
-    const cuteReplies = {
-      bby: ["হ্যাঁ বেবি ❤️ কি চাও আজ? তোমার জন্য সব রেডি!", "বেবি ডাকলে মন ভরে যায় 😘 VPN কনফিগ নিবে?", "আমার বেবি! 🚀 বলো কোন প্যাকেজ?"],
-      bot: ["হ্যাঁ বস, আমি তোমার প্রিমিয়াম VPN Bot! 🔥", "Bot বললেই চলে আসি 😎 কি সাহায্য লাগবে?"]
-    };
+localStorage.setItem("token",t);
+localStorage.setItem("admin",a);
 
-    const commands = {
-      ".start": `👋 Welcome to Premium VPN Service!\nMain Owner: ${MAIN_OWNER}\nBalance: 0 TK\nType .help for commands`,
-      ".balance": "📊 তোমার ব্যালেন্স: ০ TK\nRecharge করো!",
-      ".buy": "🛒 Packages:\n1. 30 Days - 299 TK\n2. 90 Days - 799 TK\n3. Lifetime - 1999 TK\nকোনটা নিবে?",
-      ".packages": "🛒 Available Packages দেখতে .buy টাইপ করো",
-      ".recharge": "💰 Recharge করতে bKash/Nagad নম্বর দাও। Admin চেক করবে।",
-      ".history": "📜 History: এখনো কোনো অর্ডার নেই",
-      ".support": "🛠️ Support: Admin-এর সাথে কথা বলতে চাও? আমি কানেক্ট করছি...",
-      ".reseller": "🔥 Reseller আবেদন: তোমার ইউজারনেম দাও, ${MAIN_OWNER} এপ্রুভ করবে",
-      ".admin": "👑 Admin Panel Opened (শুধু Main Owner দেখতে পাবে)",
-      ".users": "👥 Total Users: 12 (Demo)\nActive Today: 5",
-      ".help": "Available Commands:\n.start .balance .buy .recharge .support .reseller .history .admin .users"
-    };
+status.innerText="✅ System Activated";
+}
 
-    function addMessage(text, isUser) {
-      const chat = document.getElementById('chat-window');
-      const time = new Date().toLocaleTimeString('bn-BD', {hour:'2-digit', minute:'2-digit'});
-      
-      const div = document.createElement('div');
-      div.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
-      
-      if (isUser) {
-        div.innerHTML = `<div class="max-w-[80%]"><div class="user-bubble px-4 py-3 rounded-3xl">\( {text}</div><p class="text-right text-[10px] text-zinc-400 mt-1"> \){time}</p></div>`;
-      } else {
-        div.innerHTML = `<div class="flex gap-2 max-w-[80%]"><div class="w-7 h-7 bg-blue-600 rounded-2xl flex items-center justify-center text-xs mt-1">🤖</div><div><div class="bot-bubble px-4 py-3 rounded-3xl">\( {text}</div><p class="text-[10px] text-zinc-400 mt-1"> \){time}</p></div></div>`;
-      }
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
+// YOUTUBE
+function youtube(){
+let q=query.value;
+window.open("https://www.youtube.com/results?search_query="+q);
+}
 
-      chatLog.push({time, sender: isUser ? 'You' : 'Bot', msg: text});
-    }
+// IP
+function ip(){
+fetch("https://api.ipify.org?format=json")
+.then(r=>r.json())
+.then(d=>result.innerText="IP: "+d.ip)
+.catch(()=>result.innerText="Error");
+}
 
-    function getBotReply(msg) {
-      const lower = msg.toLowerCase().trim();
+// JOKE
+function joke(){
+fetch("https://official-joke-api.appspot.com/random_joke")
+.then(r=>r.json())
+.then(d=>result.innerText=d.setup+" - "+d.punchline)
+.catch(()=>result.innerText="Error");
+}
 
-      // Prefix . command
-      if (lower.startsWith('.')) {
-        return commands[lower] || "❌ Unknown command. Type .help";
-      }
+// QUOTE
+function quote(){
+fetch("https://api.quotable.io/random")
+.then(r=>r.json())
+.then(d=>result.innerText=d.content)
+.catch(()=>result.innerText="Error");
+}
 
-      // bby / bot special
-      if (lower.includes('bby') || lower.includes('baby')) {
-        return cuteReplies.bby[Math.floor(Math.random()*cuteReplies.bby.length)];
-      }
-      if (lower.includes('bot')) {
-        return cuteReplies.bot[Math.floor(Math.random()*cuteReplies.bot.length)];
-      }
+// CAT
+function cat(){
+fetch("https://api.thecatapi.com/v1/images/search")
+.then(r=>r.json())
+.then(d=>result.innerHTML="<img src='"+d[0].url+"' width='200'>")
+.catch(()=>result.innerText="Error");
+}
 
-      // Default random nice reply (প্রতিবার নতুন)
-      const defaults = [
-        "সুন্দর কথা! আরও বলো ❤️",
-        "আমি তোমার সাথে আছি সবসময় 🚀",
-        "আরেকটা মেসেজ দাও, নতুন করে রিপ্লাই দিবো 😉",
-        `Main Owner ${MAIN_OWNER} এর বট তোমার জন্য রেডি!`,
-        "মজা পেলাম! আবার বলো..."
-      ];
-      return defaults[Math.floor(Math.random()*defaults.length)];
-    }
+// DOG
+function dog(){
+fetch("https://dog.ceo/api/breeds/image/random")
+.then(r=>r.json())
+.then(d=>result.innerHTML="<img src='"+d.message+"' width='200'>")
+.catch(()=>result.innerText="Error");
+}
 
-    function sendMessage() {
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
+// AGE
+function age(){
+fetch("https://api.agify.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Age: "+d.age)
+.catch(()=>result.innerText="Error");
+}
 
-      addMessage(text, true);
+// GENDER
+function gender(){
+fetch("https://api.genderize.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Gender: "+d.gender)
+.catch(()=>result.innerText="Error");
+}
 
-      setTimeout(() => {
-        const reply = getBotReply(text);
-        addMessage(reply, false);
+// COUNTRY
+function country(){
+fetch("https://api.nationalize.io/?name="+query.value)
+.then(r=>r.json())
+.then(d=>result.innerText="Country: "+(d.country[0]?.country_id || "Unknown"))
+.catch(()=>result.innerText="Error");
+}
 
-        // Admin log
-        adminActivity.push({time: new Date().toLocaleTimeString('bn-BD'), user: "Demo User", action: text});
-      }, 650);
+// WEATHER
+function weather(){
+fetch("https://wttr.in/"+query.value+"?format=3")
+.then(r=>r.text())
+.then(d=>result.innerText=d)
+.catch(()=>result.innerText="Error");
+}
 
-      input.value = '';
-    }
+// FACT
+function fact(){
+fetch("https://uselessfacts.jsph.pl/random.json?language=en")
+.then(r=>r.json())
+.then(d=>result.innerText=d.text)
+.catch(()=>result.innerText="Error");
+}
 
-    function sendCommand(cmd) {
-      document.getElementById('chat-window').scrollIntoView({behavior: 'smooth'});
-      addMessage(cmd, true);
-      setTimeout(() => {
-        const reply = getBotReply(cmd);
-        addMessage(reply, false);
-        adminActivity.push({time: new Date().toLocaleTimeString('bn-BD'), user: "Demo User", action: cmd});
-      }, 600);
-    }
+// NUMBER (FIXED HTTPS)
+function number(){
+fetch("https://numbersapi.com/random?json")
+.then(r=>r.json())
+.then(d=>result.innerText=d.text)
+.catch(()=>result.innerText="Error");
+}
 
-    function showAdminLog() {
-      const modal = document.getElementById('admin-modal');
-      const content = document.getElementById('admin-log');
-      
-      let html = `<p class="text-emerald-400 mb-4">🔴 LIVE Activity • Main Owner: ${MAIN_OWNER}</p>`;
-      html += `<div class="space-y-3">`;
-      adminActivity.forEach(log => {
-        html += `<div class="bg-zinc-800 p-3 rounded-2xl"><span class="text-xs text-zinc-400">\( {log.time}</span><br><b> \){log.user}</b> → ${log.action}</div>`;
-      });
-      html += `</div>`;
-      content.innerHTML = html;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+// BORED
+function bored(){
+fetch("https://www.boredapi.com/api/activity")
+.then(r=>r.json())
+.then(d=>result.innerText=d.activity)
+.catch(()=>result.innerText="Error");
+}
 
-    function hideAdminLog() {
-      const modal = document.getElementById('admin-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
+// ADVICE
+function advice(){
+fetch("https://api.adviceslip.com/advice")
+.then(r=>r.json())
+.then(d=>result.innerText=d.slip.advice)
+.catch(()=>result.innerText="Error");
+}
 
-    window.onload = () => {
-      addMessage(`👑 Welcome! Main Owner: ${MAIN_OWNER}\nBot Token: ${BOT_TOKEN ? '✅ Set' : '❌ Set করো'}\nAdmin UID: ${ADMIN_UID}\n\nType .start or bby to begin!`, false);
-      adminActivity = [
-        {time: "10:20 AM", user: "User-001", action: ".balance"},
-        {time: "10:22 AM", user: "User-002", action: ".buy"}
-      ];
-    };
-  </script>
+</script>
+
 </body>
 </html>
